@@ -17,7 +17,7 @@ int[,] GetMatrix(int rowsCount, int columnsCount, int leftRange, int rightRange)
     }
     return matrix;
 }
-
+/*  Метод печати массива */
 void PrntMatrix(int[,] matrix)
 {
     for (int i = 0; i < matrix.GetLength(0); i++)
