@@ -8,8 +8,33 @@
 45(1,0,0) 53(1,0,1)
  */
 
+Console.WriteLine("Введите размеры массива через пробел: ");
+string[] nums = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
+int[,,] array = GetArray(new int[] { int.Parse(nums[0]), int.Parse(nums[1]), int.Parse(nums[2]), }, 10, 99);
+PrintArray(array);
 
-void Fill3DArrayRandomNumbers(int[,,] array)
+int[,,] GetArray(int[] sizes, int min, int max)
+{
+    int[,,] result = new int[sizes[0], sizes[1], sizes[2]];
+    for (int i = 0; i < result.GetLength(0); i++)
+    {
+        for (int j = 0; j < result.GetLength(1); j++)
+        {
+            int k = 0;
+            while (k < result.GetLength(2))
+            {
+                int element = new Random().Next(min, max + 1);
+                if (FindElement(result, element)) continue;
+                result[i, j, k] = element;
+                k++;
+            }
+        }
+    }
+    return result;
+}
+
+
+        bool FindElement(int[,,] array, int element2)
 {
     for (int i = 0; i < array.GetLength(0); i++)
     {
@@ -17,69 +42,23 @@ void Fill3DArrayRandomNumbers(int[,,] array)
         {
             for (int k = 0; k < array.GetLength(2); k++)
             {
-                array[i, j, k] = new Random().Next(0, 100);
-                for (int x = 0; x < i; x++)
-                {
-                    for (int y = 0; y < j; y++)
-                    {
-                        for (int z = 0; z < k; z++)
-                        {
-                            while (array[i, j, k] == array[x, y, z])
-                                Fill3DArrayRandomNumbers(array);
-                        }
-                    }
-                }
+                if (array[i, j, k] == element2) return true;
             }
         }
     }
+    return false;
 }
-
-
 void PrintArray(int[,,] array)
 {
     for (int i = 0; i < array.GetLength(0); i++)
     {
         for (int j = 0; j < array.GetLength(1); j++)
         {
-            Console.Write("[ ");
             for (int k = 0; k < array.GetLength(2); k++)
             {
-                Console.Write(array[i, j, k] + " ");
+                Console.Write($"{array[i, j, k]} ({i},{j},{k}) ");
             }
-            Console.Write("]");
-            Console.WriteLine("");
-        }
-        Console.WriteLine("");
-    }
-}
-
-int[,,] numbers = new int[2, 3, 4];
-Fill3DArrayRandomNumbers(numbers);
-PrintArray(numbers);
-
-
-int[] mass = new int[5];
-FillArrayRandomNumbers(mass);
-PrintArray(mass);
-void FillArrayRandomNumbers(int[] array)
-{
-    for (int i = 0; i < array.Length; i++)
-    {
-        array[i] = new Random().Next(0, 10);
-        for (int j = 0; j < i; j++)
-        {
-            while (array[i] == array[j])
-                FillArrayRandomNumbers(array);
+            Console.WriteLine();
         }
     }
-}
-void PrintArray(int[] array)
-{
-    Console.Write("[ ");
-    for (int i = 0; i < array.Length; i++)
-    {
-        Console.Write(array[i] + " ");
-    }
-    Console.Write("]");
-    Console.WriteLine("");
 }
